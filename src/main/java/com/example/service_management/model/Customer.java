@@ -17,8 +17,6 @@ public class Customer {
         // JPA only
     }
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -3,6 +3,7 @@ package com.example.service_management.controller;
 import com.example.service_management.dto.CustomerRequestDTO;
 import com.example.service_management.dto.CustomerResponseDTO;
 import com.example.service_management.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerResponseDTO create(@RequestBody CustomerRequestDTO customer) {
+    public CustomerResponseDTO create(@Valid @RequestBody CustomerRequestDTO customer) {
         return service.create(customer);
     }
 }
