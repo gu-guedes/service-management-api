@@ -1,6 +1,7 @@
 package com.example.service_management.controller;
 
-import com.example.service_management.model.Customer;
+import com.example.service_management.dto.CustomerRequestDTO;
+import com.example.service_management.dto.CustomerResponseDTO;
 import com.example.service_management.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,13 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<Customer> list() {
+    public List<CustomerResponseDTO> list() {
         return service.findAll();
-
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer create(@RequestBody Customer customer) {
+    public CustomerResponseDTO create(@RequestBody CustomerRequestDTO customer) {
         return service.create(customer);
     }
 }

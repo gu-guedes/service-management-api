@@ -7,9 +7,17 @@ import java.time.OffsetDateTime;
 @Table(name = "customers")
 public class Customer {
 
+    public Customer(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
     protected Customer() {
         // JPA only
     }
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
