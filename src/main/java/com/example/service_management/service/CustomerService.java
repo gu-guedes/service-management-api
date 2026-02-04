@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.service_management.dto.CustomerResponseDTO;
 import com.example.service_management.dto.CustomerRequestDTO;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -20,6 +21,11 @@ public class CustomerService {
                 .stream()
                 .map(this::toResponseDTO)
                 .toList();
+    }
+
+    public Optional<CustomerResponseDTO> findById(Long id) {
+        return repo.findById(id)
+                .map(this::toResponseDTO);
     }
 
     public CustomerResponseDTO create(CustomerRequestDTO dto) {

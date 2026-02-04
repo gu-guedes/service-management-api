@@ -2,9 +2,11 @@ package com.example.service_management.controller;
 
 import com.example.service_management.dto.CustomerRequestDTO;
 import com.example.service_management.dto.CustomerResponseDTO;
+import com.example.service_management.exception.ResourceNotFoundException;
 import com.example.service_management.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,14 @@ public class CustomerController {
     @GetMapping
     public List<CustomerResponseDTO> list() {
         return service.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO>  getById(@PathVariable Long id) {
+CustomerResponseDTO dto = service.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
+        return ResponseEntity.ok(dto);
+
     }
 
     @PostMapping
