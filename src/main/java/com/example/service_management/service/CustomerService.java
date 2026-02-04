@@ -1,17 +1,19 @@
 package com.example.service_management.service;
 
+import com.example.service_management.exception.ResourceNotFoundException;
 import com.example.service_management.model.Customer;
 import com.example.service_management.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import com.example.service_management.dto.CustomerResponseDTO;
 import com.example.service_management.dto.CustomerRequestDTO;
+
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
 
     private final CustomerRepository repo;
+
     public CustomerService(CustomerRepository repo) {
         this.repo = repo;
     }
@@ -23,9 +25,11 @@ public class CustomerService {
                 .toList();
     }
 
-    public Optional<CustomerResponseDTO> findById(Long id) {
-        return repo.findById(id)
-                .map(this::toResponseDTO);
+    public CustomerResponseDTO findById(Long id) {
+        Customer customer = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
+        return toResponseDTO(customer);
+
     }
 
     public CustomerResponseDTO create(CustomerRequestDTO dto) {
@@ -38,6 +42,18 @@ public class CustomerService {
         return toResponseDTO(savedCustomer);
 
     }
+
+    public CustomerResponseDTO update(Long id, CustomerRequestDTO dto) {
+       Customer existingCustomer = repo.findById(id)
+               .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
+
+                existingCustomer.setName(dto.getName());
+                existingCustomer.setEmail(dto.getEmail());
+                existingCustomer.setPhone(dto.getPhone());
+        Customer updatedCustomer = repo.save(existingCustomer);
+        return toResponseDTO(updatedCustomer);
+    }
+
     private CustomerResponseDTO toResponseDTO(Customer customer) {
         return new CustomerResponseDTO(
                 customer.getId(),

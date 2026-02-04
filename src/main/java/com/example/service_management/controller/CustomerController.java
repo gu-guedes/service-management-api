@@ -27,15 +27,17 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO>  getById(@PathVariable Long id) {
-CustomerResponseDTO dto = service.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
-        return ResponseEntity.ok(dto);
-
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerResponseDTO create(@Valid @RequestBody CustomerRequestDTO customer) {
         return service.create(customer);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CustomerRequestDTO customer) {
+        return ResponseEntity.ok(service.update(id, customer));
     }
 }
