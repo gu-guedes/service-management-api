@@ -21,7 +21,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerResponseDTO> list() {
+    public List<CustomerResponseDTO> get() {
         return service.findAll();
     }
 

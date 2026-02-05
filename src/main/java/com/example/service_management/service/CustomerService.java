@@ -1,6 +1,7 @@
 package com.example.service_management.service;
 
 import com.example.service_management.exception.ResourceNotFoundException;
+import com.example.service_management.mapper.CustomerMapper;
 import com.example.service_management.model.Customer;
 import com.example.service_management.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -13,45 +14,42 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository repo;
+    private final CustomerMapper mapper;
 
-    public CustomerService(CustomerRepository repo) {
+    public CustomerService(CustomerRepository repo, CustomerMapper mapper) {
         this.repo = repo;
+        this.mapper = mapper;
     }
 
     public List<CustomerResponseDTO> findAll() {
         return repo.findAll()
                 .stream()
-                .map(this::toResponseDTO)
+                .map(mapper::toResponseDTO)
                 .toList();
     }
 
     public CustomerResponseDTO findById(Long id) {
         Customer customer = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
-        return toResponseDTO(customer);
+        return mapper.toResponseDTO(customer);
 
     }
 
     public CustomerResponseDTO create(CustomerRequestDTO dto) {
-        Customer customer = new Customer(
-                dto.getName(),
-                dto.getEmail(),
-                dto.getPhone()
-        );
+        Customer customer = mapper.toEntity(dto);
         Customer savedCustomer = repo.save(customer);
-        return toResponseDTO(savedCustomer);
+        return mapper.toResponseDTO(savedCustomer);
 
     }
 
     public CustomerResponseDTO update(Long id, CustomerRequestDTO dto) {
-       Customer existingCustomer = repo.findById(id)
+       Customer customer = repo.findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
 
-                existingCustomer.setName(dto.getName());
-                existingCustomer.setEmail(dto.getEmail());
-                existingCustomer.setPhone(dto.getPhone());
-        Customer updatedCustomer = repo.save(existingCustomer);
-        return toResponseDTO(updatedCustomer);
+       mapper.updateEntity(customer, dto);
+
+       Customer updatedCustomer = repo.save(customer);
+       return mapper.toResponseDTO(updatedCustomer);
     }
 
     public void delete(Long id) {
@@ -60,14 +58,4 @@ public class CustomerService {
         repo.delete(existingCustomer);
     }
 
-    private CustomerResponseDTO toResponseDTO(Customer customer) {
-        return new CustomerResponseDTO(
-                customer.getId(),
-                customer.getName(),
-                customer.getEmail(),
-                customer.getPhone(),
-                customer.getCreatedAt(),
-                customer.getUpdatedAt()
-        );
-    }
 }
