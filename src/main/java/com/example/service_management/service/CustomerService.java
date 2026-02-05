@@ -54,6 +54,12 @@ public class CustomerService {
         return toResponseDTO(updatedCustomer);
     }
 
+    public void delete(Long id) {
+        Customer existingCustomer = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
+        repo.delete(existingCustomer);
+    }
+
     private CustomerResponseDTO toResponseDTO(Customer customer) {
         return new CustomerResponseDTO(
                 customer.getId(),

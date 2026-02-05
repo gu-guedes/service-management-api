@@ -26,8 +26,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerResponseDTO>  getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+    public CustomerResponseDTO getById(@PathVariable Long id) {
+        return service.findById(id);
     }
 
     @PostMapping
@@ -37,7 +37,14 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CustomerRequestDTO customer) {
-        return ResponseEntity.ok(service.update(id, customer));
+    public CustomerResponseDTO update(@PathVariable Long id, @Valid @RequestBody CustomerRequestDTO customer) {
+        return service.update(id, customer);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
+
     }
 }
