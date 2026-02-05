@@ -60,7 +60,8 @@ public class CustomerService {
                 customer.getName(),
                 customer.getEmail(),
                 customer.getPhone(),
-                customer.getCreatedAt()
+                customer.getCreatedAt(),
+                customer.getUpdatedAt()
         );
     }
 }

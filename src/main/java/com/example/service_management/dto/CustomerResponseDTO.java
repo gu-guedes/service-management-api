@@ -8,13 +8,15 @@ public class CustomerResponseDTO {
     private final String email;
     private final String phone;
     private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
 
-    public CustomerResponseDTO(Long id, String name, String email, String phone, OffsetDateTime createdAt) {
+    public CustomerResponseDTO(Long id, String name, String email, String phone, OffsetDateTime createdAt, OffsetDateTime updateAt) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.createdAt = createdAt;
+        this.updatedAt = updateAt;
     }
 
     public Long getId() { return id; }
@@ -26,5 +28,7 @@ public class CustomerResponseDTO {
     public String getPhone() { return phone; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
+
+    public OffsetDateTime getUpdatedAt() { return updatedAt; }
 
 }

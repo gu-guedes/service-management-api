@@ -30,9 +30,19 @@ public class Customer {
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
+
+
     @PrePersist
     private void onCreate() {
         this.createdAt = OffsetDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
+    }
+
+    @PreUpdate
+    private void onUpdate() {
+        this.updatedAt = OffsetDateTime.now();
     }
 
     public Long getId() { return id; }
@@ -47,4 +57,6 @@ public class Customer {
     public void setPhone(String phone) { this.phone = phone; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
+
+    public OffsetDateTime getUpdatedAt() { return updatedAt; }
 }
