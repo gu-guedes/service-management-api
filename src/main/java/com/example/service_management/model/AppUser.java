@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "app_users")
+@Table(name = "app_user")
 public class AppUser {
         public AppUser(String username, String passwordHash) {
         this.username = username;
@@ -51,7 +51,7 @@ public class AppUser {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
     public void setActive(boolean active) {
