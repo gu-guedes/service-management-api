@@ -14,7 +14,6 @@ public class Customer {
     }
 
     protected Customer() {
-        // JPA only
     }
 
     @Id
