@@ -30,7 +30,8 @@ public class AppUserService {
                 user.getId(),
                 user.getUsername(),
                 user.getActive(),
-                user.getCreatedAt()
+                user.getCreatedAt(),
+                user.getUpdatedAt()
         )).toList();
     }
 
@@ -44,7 +45,8 @@ public class AppUserService {
             savedUser.getId(),
             savedUser.getUsername(),
             savedUser.getActive(),
-            savedUser.getCreatedAt()
+            savedUser.getCreatedAt(),
+            savedUser.getUpdatedAt()
     );
 
     }
@@ -55,7 +57,8 @@ public class AppUserService {
                 user.getId(),
                 user.getUsername(),
                 user.getActive(),
-                user.getCreatedAt()
+                user.getCreatedAt(),
+                user.getUpdatedAt()
         );
     }
 
@@ -82,7 +85,8 @@ public class AppUserService {
                 updatedUser.getId(),
                 updatedUser.getUsername(),
                 updatedUser.getActive(),
-                updatedUser.getCreatedAt()
+                updatedUser.getCreatedAt(),
+                updatedUser.getUpdatedAt()
         );
     }
 }

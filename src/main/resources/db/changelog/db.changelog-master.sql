@@ -70,3 +70,11 @@ ALTER TABLE public.service_orders
 --changeset gguedes:2.1
 ALTER TABLE public.customers
     ADD COLUMN updated_at timestamp with time zone DEFAULT now() NOT NULL;
+
+--changeset gguedes:3.2
+ALTER TABLE public.app_user
+    ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone DEFAULT now() NOT NULL;
+
+--changeset gguedes:3.3
+ALTER TABLE public.app_user
+    ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone DEFAULT now() NOT NULL;
