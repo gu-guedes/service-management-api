@@ -1,10 +1,11 @@
 package com.example.service_management.controller;
 
+import com.example.service_management.dto.AppUserRequestDTO;
 import com.example.service_management.dto.AppUserResponseDTO;
 import com.example.service_management.service.AppUserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +22,13 @@ private final AppUserService service;
     @GetMapping
     public List<AppUserResponseDTO> getAll() {
         return service.findAll();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public AppUserResponseDTO create(@Valid @RequestBody AppUserRequestDTO appUser) {
+        return service.create(appUser);
+
     }
 
 }
