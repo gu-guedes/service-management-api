@@ -58,4 +58,10 @@ public class AppUserService {
         );
     }
 
+    public void delete(Long id) {
+        AppUser user = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("AppUser not found with id " + id));
+        repository.delete(user);
+    }
+
 }

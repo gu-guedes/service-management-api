@@ -2,17 +2,9 @@ package com.example.service_management.controller;
 
 import com.example.service_management.dto.CustomerRequestDTO;
 import com.example.service_management.dto.CustomerResponseDTO;
-import com.example.service_management.exception.ResourceNotFoundException;
 import com.example.service_management.service.CustomerService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/customers")
+import org.springframework.http.HttpStatus;stMapping("/customers")
 public class CustomerController {
 
     private final CustomerService service;
@@ -46,6 +38,5 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         service.delete(id);
-
     }
 }

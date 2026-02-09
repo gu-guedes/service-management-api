@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/app-users")
 
 public class AppUserController {
-private final AppUserService service;
+    private final AppUserService service;
 
     public AppUserController(AppUserService service) {
         this.service = service;
@@ -33,6 +33,11 @@ private final AppUserService service;
     @GetMapping("/{id}")
     public AppUserResponseDTO getById(@PathVariable Long id) {
         return service.findById(id);
+    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 
 }
