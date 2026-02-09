@@ -3,6 +3,7 @@ package com.example.service_management.service;
 import com.example.service_management.dto.AppUserRequestDTO;
 import com.example.service_management.dto.AppUserResponseDTO;
 import com.example.service_management.exception.ResourceNotFoundException;
+import com.example.service_management.mapper.AppUserMapper;
 import com.example.service_management.model.AppUser;
 import com.example.service_management.repository.AppUserRepository;
 import jakarta.validation.Valid;
@@ -17,49 +18,33 @@ import java.util.List;
 public class AppUserService {
     private final AppUserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final AppUserMapper mapper;
 
-    public AppUserService(AppUserRepository repository, PasswordEncoder passwordEncoder) {
+    public AppUserService(AppUserRepository repository, PasswordEncoder passwordEncoder, AppUserMapper mapper) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.mapper = mapper;
     }
 
     public List<AppUserResponseDTO> findAll() {
         return repository.findAll()
                 .stream()
-                .map(user -> new AppUserResponseDTO(
-                user.getId(),
-                user.getUsername(),
-                user.getActive(),
-                user.getCreatedAt(),
-                user.getUpdatedAt()
-        )).toList();
+                .map(mapper::toResponseDTO)
+                .toList();
     }
 
     public AppUserResponseDTO create(AppUserRequestDTO dto) {
-    String hashedPassword = passwordEncoder.encode(dto.getPassword());
-    AppUser newAppUser = new AppUser(dto.getUsername(), hashedPassword);
-
-    AppUser savedUser = repository.save(newAppUser);
-
-    return new AppUserResponseDTO(
-            savedUser.getId(),
-            savedUser.getUsername(),
-            savedUser.getActive(),
-            savedUser.getCreatedAt(),
-            savedUser.getUpdatedAt()
-    );
-
+        String hashedPassword = passwordEncoder.encode(dto.getPassword());
+        dto.setPassword(hashedPassword);
+        AppUser newAppUser = mapper.toEntity(dto);
+        AppUser savedUser = repository.save(newAppUser);
+        return mapper.toResponseDTO(savedUser);
     }
+
     public AppUserResponseDTO findById(Long id) {
         AppUser user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("AppUser not found with id " + id));
-        return new AppUserResponseDTO(
-                user.getId(),
-                user.getUsername(),
-                user.getActive(),
-                user.getCreatedAt(),
-                user.getUpdatedAt()
-        );
+        return mapper.toResponseDTO(user);
     }
 
     public void delete(Long id) {
@@ -81,12 +66,6 @@ public class AppUserService {
 
         AppUser updatedUser = repository.save(existingUser);
 
-        return new AppUserResponseDTO(
-                updatedUser.getId(),
-                updatedUser.getUsername(),
-                updatedUser.getActive(),
-                updatedUser.getCreatedAt(),
-                updatedUser.getUpdatedAt()
-        );
+        return mapper.toResponseDTO(updatedUser);
     }
 }
