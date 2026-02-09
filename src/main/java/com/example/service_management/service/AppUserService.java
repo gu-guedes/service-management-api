@@ -2,12 +2,14 @@ package com.example.service_management.service;
 
 import com.example.service_management.dto.AppUserRequestDTO;
 import com.example.service_management.dto.AppUserResponseDTO;
+import com.example.service_management.exception.ResourceNotFoundException;
 import com.example.service_management.model.AppUser;
 import com.example.service_management.repository.AppUserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.nio.file.ReadOnlyFileSystemException;
 import java.util.List;
 
 @Service
@@ -44,6 +46,16 @@ public class AppUserService {
             savedUser.getCreatedAt()
     );
 
+    }
+    public AppUserResponseDTO findById(Long id) {
+        AppUser user = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("AppUser not found with id " + id));
+        return new AppUserResponseDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getActive(),
+                user.getCreatedAt()
+        );
     }
 
 }

@@ -30,5 +30,9 @@ private final AppUserService service;
         return service.create(appUser);
 
     }
+    @GetMapping("/{id}")
+    public AppUserResponseDTO getById(@PathVariable Long id) {
+        return service.findById(id);
+    }
 
 }
