@@ -62,7 +62,8 @@ public class AppUserService {
     public void delete(Long id) {
         AppUser user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("AppUser not found with id " + id));
-        repository.delete(user);
+        user.setActive(false);
+        repository.save(user);
     }
 
     public AppUserResponseDTO update(Long id, @Valid AppUserRequestDTO appUser) {
