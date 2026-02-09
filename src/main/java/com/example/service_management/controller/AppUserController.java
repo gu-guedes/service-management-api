@@ -34,10 +34,16 @@ public class AppUserController {
     public AppUserResponseDTO getById(@PathVariable Long id) {
         return service.findById(id);
     }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public AppUserResponseDTO update(@PathVariable Long id, @Valid @RequestBody AppUserRequestDTO appUser) {
+        return service.update(id, appUser);
     }
 
 }

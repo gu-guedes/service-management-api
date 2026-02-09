@@ -5,6 +5,7 @@ import com.example.service_management.dto.AppUserResponseDTO;
 import com.example.service_management.exception.ResourceNotFoundException;
 import com.example.service_management.model.AppUser;
 import com.example.service_management.repository.AppUserRepository;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,4 +65,23 @@ public class AppUserService {
         repository.delete(user);
     }
 
+    public AppUserResponseDTO update(Long id, @Valid AppUserRequestDTO appUser) {
+        AppUser existingUser = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("AppUser not found with id " + id));
+
+        existingUser.setUsername(appUser.getUsername());
+        if (appUser.getPassword() != null && !appUser.getPassword().isEmpty()) {
+            String hashedPassword = passwordEncoder.encode(appUser.getPassword());
+            existingUser.setPasswordHash(hashedPassword);
+        }
+
+        AppUser updatedUser = repository.save(existingUser);
+
+        return new AppUserResponseDTO(
+                updatedUser.getId(),
+                updatedUser.getUsername(),
+                updatedUser.getActive(),
+                updatedUser.getCreatedAt()
+        );
+    }
 }

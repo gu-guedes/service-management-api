@@ -4,7 +4,13 @@ import com.example.service_management.dto.CustomerRequestDTO;
 import com.example.service_management.dto.CustomerResponseDTO;
 import com.example.service_management.service.CustomerService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;stMapping("/customers")
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService service;
