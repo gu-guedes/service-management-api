@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -76,10 +78,23 @@ public class RestExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, msg, request, null);
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex, HttpServletRequest request) {
+        String msg = ex.getMessage() != null ? ex.getMessage() : "Credenciais inválidas";
+        return buildResponse(HttpStatus.UNAUTHORIZED, msg, request, null);
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ErrorResponse> handleDisabled(DisabledException ex, HttpServletRequest request) {
+        String msg = ex.getMessage() != null ? ex.getMessage() : "Usuário inativo";
+        return buildResponse(HttpStatus.FORBIDDEN, msg, request, null);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAll(Exception ex, HttpServletRequest request) {
         log.error("Unhandled exception", ex);
         String msg = "Internal server error";
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, msg, request, null);
     }
+
 }
