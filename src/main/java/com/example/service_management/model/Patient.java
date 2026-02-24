@@ -33,8 +33,7 @@ public class Patient {
     @Column(length = 100)
     private String breed;
 
-    @Column(length = 1)
-    private String sex; // 'M'/'F' ou null
+    private String sex;
 
     private LocalDate birthDate;
 
@@ -51,6 +50,10 @@ public class Patient {
     private boolean active = true;
 
     @Column(nullable = false)
-    private OffsetDateTime createdAt = OffsetDateTime.now();
+    private OffsetDateTime createdAt;
 
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = OffsetDateTime.now();
+    }
 }
