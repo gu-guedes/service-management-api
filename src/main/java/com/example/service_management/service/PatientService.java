@@ -27,7 +27,6 @@ public class PatientService {
         this.customerRepository = customerRepository;
     }
 
-
     public List<PatientResponseDTO> findAll() {
         return patientRepository.findAll().stream()
                 .map(patientMapper::toResponse)

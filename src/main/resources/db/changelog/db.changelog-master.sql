@@ -181,3 +181,9 @@ FROM public.service_categories sc
 WHERE st.code = 'CIRURGIA' AND sc.name = 'Castração';
 
 
+--changeset gguedes:104-update-patients-sex-constraint
+ALTER TABLE public.patients ALTER COLUMN sex TYPE varchar(10);
+ALTER TABLE public.patients DROP CONSTRAINT IF EXISTS patients_sex_check;
+ALTER TABLE public.patients ADD CONSTRAINT patients_sex_check
+    CHECK (sex IS NULL OR sex IN ('macho', 'femea'));
+
