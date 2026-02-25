@@ -34,4 +34,10 @@ public class PatientController {
     public PatientResponseDTO createPatient(@Valid @RequestBody PatientRequestDTO dto) {
         return patientService.create(dto);
     }
+
+    @PutMapping("/{id}")
+    public PatientResponseDTO updatePatient(@PathVariable Long id, @Valid @RequestBody PatientRequestDTO dto) {
+        return patientService.update(id, dto);
+    }
+
 }

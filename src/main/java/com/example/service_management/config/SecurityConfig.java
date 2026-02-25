@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/app-users").permitAll()
                         .requestMatchers(
+                                "/patients/**",
                                 "/auth/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
