@@ -40,4 +40,10 @@ public class PatientController {
         return patientService.update(id, dto);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePatient(@PathVariable Long id) {
+        patientService.delete(id);
+    }
+
 }
