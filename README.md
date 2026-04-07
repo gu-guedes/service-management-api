@@ -111,11 +111,11 @@ Authorization: Bearer <token>
 
 | Método | Rota | Auth | Descrição |
 |---|---|---|---|
-| `POST` | `/patients` | ❌ | Cria novo paciente |
-| `GET` | `/patients` | ❌ | Lista todos os pacientes |
-| `GET` | `/patients/{id}` | ❌ | Busca paciente por ID |
-| `PUT` | `/patients/{id}` | ❌ | Atualiza paciente |
-| `DELETE` | `/patients/{id}` | ❌ | Remove paciente |
+| `POST` | `/patients` | ✅ | Cria novo paciente |
+| `GET` | `/patients` | ✅ | Lista todos os pacientes |
+| `GET` | `/patients/{id}` | ✅ | Busca paciente por ID |
+| `PUT` | `/patients/{id}` | ✅ | Atualiza paciente |
+| `DELETE` | `/patients/{id}` | ✅ | Remove paciente |
 
 ---
 
