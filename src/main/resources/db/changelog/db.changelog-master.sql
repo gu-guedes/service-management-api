@@ -157,23 +157,22 @@ FROM public.service_types st
 WHERE st.code = 'CONSULTA'
 ON CONFLICT (service_type_id, name) DO NOTHING;
 
---changeset gguedes:103-seed-services-initial
+--changeset gguedes:103-seed-services-initial runOnChange:true
 
--- CONSULTA -> Dermato
 INSERT INTO public.services (service_category_id, name, description, base_price)
 SELECT sc.id, 'Consulta Dermato', 'Consulta dermatológica', 150.00
 FROM public.service_categories sc
          JOIN public.service_types st ON st.id = sc.service_type_id
 WHERE st.code = 'CONSULTA' AND sc.name = 'Dermato';
 
--- CONSULTA -> Verminose
+
 INSERT INTO public.services (service_category_id, name, description, base_price)
 SELECT sc.id, 'Consulta Verminose', 'Tratamento de verminoses', 130.00
 FROM public.service_categories sc
          JOIN public.service_types st ON st.id = sc.service_type_id
 WHERE st.code = 'CONSULTA' AND sc.name = 'Verminose';
 
--- CIRURGIA -> Castração
+
 INSERT INTO public.services (service_category_id, name, description, base_price)
 SELECT sc.id, 'Castração (base)', 'Castração - preço base', 500.00
 FROM public.service_categories sc
