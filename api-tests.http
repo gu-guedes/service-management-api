@@ -1,0 +1,95 @@
+### Roteiro de teste da API da veterinária
+### Suba a aplicação (Run no ServiceManagementApplication) antes de rodar isto.
+### No IntelliJ, clique na seta verde ao lado de cada "###" pra executar aquela requisição.
+### O login guarda o token automaticamente; os passos seguintes já usam ele.
+
+@baseUrl = http://localhost:8080
+
+### 1. Criar o primeiro usuário do sistema (esse endpoint é público)
+POST {{baseUrl}}/app-users
+Content-Type: application/json
+
+{
+  "username": "gustavo",
+  "password": "senha123"
+}
+
+### 2. Login (guarda o token pras próximas chamadas)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "gustavo",
+  "password": "senha123"
+}
+
+> {%
+client.global.set("authToken", response.body.token);
+%}
+
+### 3. Cadastrar um cliente (tutor)
+# @name createCustomer
+POST {{baseUrl}}/customers
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Maria Silva",
+  "email": "maria.silva@example.com",
+  "phone": "+5511999999999"
+}
+
+> {%
+client.global.set("customerId", response.body.id);
+%}
+
+### 4. Cadastrar um pet vinculado ao cliente acima
+# @name createPatient
+POST {{baseUrl}}/patients
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "customerId": {{customerId}},
+  "name": "Rex",
+  "species": "Cachorro",
+  "breed": "Labrador",
+  "sex": "macho",
+  "birthDate": "2021-05-10",
+  "weightKg": 28.5,
+  "neutered": true,
+  "notes": "Nenhuma observação até o momento",
+  "active": true
+}
+
+> {%
+client.global.set("patientId", response.body.id);
+%}
+
+### 5. Registrar um atendimento no prontuário do pet
+POST {{baseUrl}}/medical-records
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "patientId": {{patientId}},
+  "description": "Consulta de rotina. Animal saudável, vacinas em dia, sem alterações no exame físico.",
+  "weightKg": 28.5
+}
+
+### 6. Ver o histórico completo desse pet (prontuário)
+GET {{baseUrl}}/medical-records/patient/{{patientId}}
+Authorization: Bearer {{authToken}}
+
+### 7. Listar todos os clientes cadastrados
+GET {{baseUrl}}/customers
+Authorization: Bearer {{authToken}}
+
+### 8. Listar todos os pets cadastrados
+GET {{baseUrl}}/patients
+Authorization: Bearer {{authToken}}
+
+### 9. Listar todos os registros de prontuário (de todos os pets)
+GET {{baseUrl}}/medical-records
+Authorization: Bearer {{authToken}}
