@@ -186,3 +186,20 @@ ALTER TABLE public.patients DROP CONSTRAINT IF EXISTS patients_sex_check;
 ALTER TABLE public.patients ADD CONSTRAINT patients_sex_check
     CHECK (sex IS NULL OR sex IN ('macho', 'femea'));
 
+--changeset gguedes:105-create-medical-records
+-- Prontuário simples: histórico de atendimento por pet, sem depender do catálogo de serviços
+
+CREATE TABLE public.medical_records (
+                                         id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                         patient_id bigint NOT NULL,
+                                         record_date timestamp with time zone DEFAULT now() NOT NULL,
+                                         description text NOT NULL,
+                                         weight_kg numeric(5,2),
+                                         created_at timestamp with time zone DEFAULT now() NOT NULL,
+                                         CONSTRAINT fk_medical_records_patient
+                                             FOREIGN KEY (patient_id)
+                                                 REFERENCES public.patients(id)
+                                                 ON DELETE RESTRICT
+);
+
+CREATE INDEX IF NOT EXISTS ix_medical_records_patient ON public.medical_records(patient_id);

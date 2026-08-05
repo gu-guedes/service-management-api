@@ -1,0 +1,42 @@
+package com.example.service_management.mapper;
+
+import com.example.service_management.dto.MedicalRecordRequestDTO;
+import com.example.service_management.dto.MedicalRecordResponseDTO;
+import com.example.service_management.model.MedicalRecord;
+import com.example.service_management.model.Patient;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MedicalRecordMapper {
+
+    public MedicalRecordResponseDTO toResponse(MedicalRecord r) {
+        if (r == null) return null;
+        return MedicalRecordResponseDTO.builder()
+                .id(r.getId())
+                .patientId(r.getPatient() != null ? r.getPatient().getId() : null)
+                .patientName(r.getPatient() != null ? r.getPatient().getName() : null)
+                .recordDate(r.getRecordDate())
+                .description(r.getDescription())
+                .weightKg(r.getWeightKg())
+                .createdAt(r.getCreatedAt())
+                .build();
+    }
+
+    public MedicalRecord toEntity(MedicalRecordRequestDTO dto, Patient patient) {
+        MedicalRecord r = new MedicalRecord();
+        r.setPatient(patient);
+        r.setRecordDate(dto.getRecordDate());
+        r.setDescription(dto.getDescription());
+        r.setWeightKg(dto.getWeightKg());
+        return r;
+    }
+
+    public void updateEntity(MedicalRecord existing, MedicalRecordRequestDTO dto, Patient patient) {
+        existing.setPatient(patient);
+        if (dto.getRecordDate() != null) {
+            existing.setRecordDate(dto.getRecordDate());
+        }
+        existing.setDescription(dto.getDescription());
+        existing.setWeightKg(dto.getWeightKg());
+    }
+}
