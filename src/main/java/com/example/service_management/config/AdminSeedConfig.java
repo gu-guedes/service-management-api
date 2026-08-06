@@ -1,7 +1,7 @@
 package com.example.service_management.config;
 
-import com.example.service_management.model.AppUser;
-import com.example.service_management.repository.AppUserRepository;
+import com.example.service_management.features.appuser.model.AppUser;
+import com.example.service_management.features.appuser.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

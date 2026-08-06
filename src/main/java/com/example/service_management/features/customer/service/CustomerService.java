@@ -1,0 +1,63 @@
+package com.example.service_management.features.customer.service;
+
+import com.example.service_management.exception.ResourceNotFoundException;
+import com.example.service_management.features.customer.mapper.CustomerMapper;
+import com.example.service_management.features.customer.model.Customer;
+import com.example.service_management.features.customer.repository.CustomerRepository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
+import com.example.service_management.features.customer.dto.CustomerResponseDTO;
+import com.example.service_management.features.customer.dto.CustomerRequestDTO;
+
+import java.util.List;
+
+@Service
+@Transactional(readOnly = true)
+public class CustomerService {
+
+    private final CustomerRepository repo;
+    private final CustomerMapper mapper;
+
+    public CustomerService(CustomerRepository repo, CustomerMapper mapper) {
+        this.repo = repo;
+        this.mapper = mapper;
+    }
+
+    public List<CustomerResponseDTO> findAll() {
+        return repo.findAll()
+                .stream()
+                .map(mapper::toResponseDTO)
+                .toList();
+    }
+
+    public CustomerResponseDTO findById(Long id) {
+        Customer customer = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
+        return mapper.toResponseDTO(customer);
+
+    }
+    @Transactional
+    public CustomerResponseDTO create(CustomerRequestDTO dto) {
+        Customer customer = mapper.toEntity(dto);
+        Customer savedCustomer = repo.save(customer);
+        return mapper.toResponseDTO(savedCustomer);
+
+    }
+    @Transactional
+    public CustomerResponseDTO update(Long id, CustomerRequestDTO dto) {
+       Customer customer = repo.findById(id)
+               .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
+
+       mapper.updateEntity(customer, dto);
+
+       Customer updatedCustomer = repo.save(customer);
+       return mapper.toResponseDTO(updatedCustomer);
+    }
+    @Transactional
+    public void delete(Long id) {
+        Customer existingCustomer = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
+        repo.delete(existingCustomer);
+    }
+
+}
