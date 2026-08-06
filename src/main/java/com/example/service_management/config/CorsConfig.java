@@ -28,6 +28,15 @@ public class CorsConfig {
                 .filter(origin -> !origin.isEmpty())
                 .toList();
 
+        // DEBUG TEMPORARIO — remover depois de descobrir a causa do 403 de CORS no Render.
+        // Mostra o valor bruto e cada origem resolvida com aspas, pra pegar espaco/
+        // caractere invisivel que nao aparece no painel do Render.
+        System.out.println("CORS_DEBUG raw=[" + allowedOrigins + "] length=" + allowedOrigins.length());
+        for (String o : origins) {
+            System.out.println("CORS_DEBUG origin=[" + o + "] length=" + o.length()
+                    + " bytes=" + java.util.Arrays.toString(o.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        }
+
         config.setAllowedOrigins(origins);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
