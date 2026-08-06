@@ -14,19 +14,30 @@ public class CustomerMapper {
             customer.getName(),
             customer.getEmail(),
             customer.getPhone(),
+            customer.getStreet(),
+            customer.getStreetNumber(),
+            customer.getNeighborhood(),
+            customer.getCity(),
+            customer.getReferencePoint(),
             customer.getCreatedAt(),
             customer.getUpdatedAt()
         );
     }
 
     public Customer toEntity(CustomerRequestDTO dto) {
-    return new Customer(dto.getName(), dto.getEmail(), dto.getPhone());
+        return new Customer(dto.getName(), dto.getEmail(), dto.getPhone(), dto.getStreet(), dto.getStreetNumber(),
+                dto.getNeighborhood(), dto.getCity(), dto.getReferencePoint());
     }
 
     public void updateEntity(Customer customer, CustomerRequestDTO dto) {
         customer.setName(dto.getName());
         customer.setEmail(dto.getEmail());
         customer.setPhone(dto.getPhone());
+        customer.setStreet(dto.getStreet());
+        customer.setStreetNumber(dto.getStreetNumber());
+        customer.setNeighborhood(dto.getNeighborhood());
+        customer.setCity(dto.getCity());
+        customer.setReferencePoint(dto.getReferencePoint());
     }
 
 }

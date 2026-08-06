@@ -7,10 +7,16 @@ import java.time.OffsetDateTime;
 @Table(name = "customers")
 public class Customer {
 
-    public Customer(String name, String email, String phone) {
+    public Customer(String name, String email, String phone, String street, String streetNumber,
+                     String neighborhood, String city, String referencePoint) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.neighborhood = neighborhood;
+        this.city = city;
+        this.referencePoint = referencePoint;
     }
 
     protected Customer() {
@@ -25,6 +31,18 @@ public class Customer {
 
     private String email;
     private String phone;
+
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "street_number")
+    private String streetNumber;
+
+    private String neighborhood;
+    private String city;
+
+    @Column(name = "reference_point")
+    private String referencePoint;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
@@ -54,6 +72,21 @@ public class Customer {
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
+
+    public String getStreet() { return street; }
+    public void setStreet(String street) { this.street = street; }
+
+    public String getStreetNumber() { return streetNumber; }
+    public void setStreetNumber(String streetNumber) { this.streetNumber = streetNumber; }
+
+    public String getNeighborhood() { return neighborhood; }
+    public void setNeighborhood(String neighborhood) { this.neighborhood = neighborhood; }
+
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
+
+    public String getReferencePoint() { return referencePoint; }
+    public void setReferencePoint(String referencePoint) { this.referencePoint = referencePoint; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
 
