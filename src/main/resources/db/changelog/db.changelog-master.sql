@@ -233,3 +233,8 @@ ALTER TABLE public.medical_records DROP COLUMN IF EXISTS description;
 --changeset gguedes:111-customer-birth-date
 -- Data de nascimento do tutor (opcional) — usada pra lembrete de aniversario
 ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS birth_date date;
+
+--changeset gguedes:112-medical-record-follow-up
+-- Lembrete de retorno pos-atendimento (opcional) — ex: avisar tutor apos fim de um tratamento
+ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS follow_up_date date;
+ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS follow_up_done boolean DEFAULT false NOT NULL;
