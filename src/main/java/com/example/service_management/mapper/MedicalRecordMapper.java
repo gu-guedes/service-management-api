@@ -16,7 +16,8 @@ public class MedicalRecordMapper {
                 .patientId(r.getPatient() != null ? r.getPatient().getId() : null)
                 .patientName(r.getPatient() != null ? r.getPatient().getName() : null)
                 .recordDate(r.getRecordDate())
-                .description(r.getDescription())
+                .complaint(r.getComplaint())
+                .treatment(r.getTreatment())
                 .weightKg(r.getWeightKg())
                 .createdAt(r.getCreatedAt())
                 .build();
@@ -26,7 +27,8 @@ public class MedicalRecordMapper {
         MedicalRecord r = new MedicalRecord();
         r.setPatient(patient);
         r.setRecordDate(dto.getRecordDate());
-        r.setDescription(dto.getDescription());
+        r.setComplaint(dto.getComplaint());
+        r.setTreatment(dto.getTreatment());
         r.setWeightKg(dto.getWeightKg());
         return r;
     }
@@ -36,7 +38,8 @@ public class MedicalRecordMapper {
         if (dto.getRecordDate() != null) {
             existing.setRecordDate(dto.getRecordDate());
         }
-        existing.setDescription(dto.getDescription());
+        existing.setComplaint(dto.getComplaint());
+        existing.setTreatment(dto.getTreatment());
         existing.setWeightKg(dto.getWeightKg());
     }
 }

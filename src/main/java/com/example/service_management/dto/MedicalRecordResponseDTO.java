@@ -15,7 +15,8 @@ public class MedicalRecordResponseDTO {
     private Long patientId;
     private String patientName;
     private OffsetDateTime recordDate;
-    private String description;
+    private String complaint;
+    private String treatment;
     private BigDecimal weightKg;
     private OffsetDateTime createdAt;
 }

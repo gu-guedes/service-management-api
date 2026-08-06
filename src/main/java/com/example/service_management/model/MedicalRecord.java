@@ -27,7 +27,10 @@ public class MedicalRecord {
     private OffsetDateTime recordDate;
 
     @Column(nullable = false, columnDefinition = "text")
-    private String description;
+    private String complaint;
+
+    @Column(nullable = false, columnDefinition = "text")
+    private String treatment;
 
     @Column(name = "weight_kg", precision = 5, scale = 2)
     private BigDecimal weightKg;

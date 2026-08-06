@@ -19,7 +19,10 @@ public class MedicalRecordRequestDTO {
     private OffsetDateTime recordDate;
 
     @NotBlank
-    private String description;
+    private String complaint;
+
+    @NotBlank
+    private String treatment;
 
     @DecimalMin("0.0")
     private BigDecimal weightKg;
