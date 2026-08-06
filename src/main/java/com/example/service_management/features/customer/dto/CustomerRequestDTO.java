@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+
 public class CustomerRequestDTO {
     @NotBlank(message = "name is mandatory")
     @Size(max = 100, message = "name must be at most 100 characters")
@@ -35,6 +37,9 @@ public class CustomerRequestDTO {
 
     @Size(max = 150, message = "referencePoint must be at most 150 characters")
     private String referencePoint;
+
+    // opcional — nem todo tutor sabe/quer informar, usado so pro lembrete de aniversario
+    private LocalDate birthDate;
 
     public String getName() {
         return name;
@@ -96,5 +101,13 @@ public class CustomerRequestDTO {
 
     public void setReferencePoint(String referencePoint) {
         this.referencePoint = referencePoint;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }

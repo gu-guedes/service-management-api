@@ -1,5 +1,6 @@
 package com.example.service_management.features.customer.dto;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 public class CustomerResponseDTO {
@@ -12,11 +13,12 @@ public class CustomerResponseDTO {
     private final String neighborhood;
     private final String city;
     private final String referencePoint;
+    private final LocalDate birthDate;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
     public CustomerResponseDTO(Long id, String name, String email, String phone, String street, String streetNumber,
-                                String neighborhood, String city, String referencePoint,
+                                String neighborhood, String city, String referencePoint, LocalDate birthDate,
                                 OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.name = name;
@@ -27,6 +29,7 @@ public class CustomerResponseDTO {
         this.neighborhood = neighborhood;
         this.city = city;
         this.referencePoint = referencePoint;
+        this.birthDate = birthDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -40,6 +43,7 @@ public class CustomerResponseDTO {
     public String getNeighborhood() { return neighborhood; }
     public String getCity() { return city; }
     public String getReferencePoint() { return referencePoint; }
+    public LocalDate getBirthDate() { return birthDate; }
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
 

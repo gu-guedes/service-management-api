@@ -229,3 +229,7 @@ ALTER TABLE public.patients ALTER COLUMN age_years TYPE integer;
 ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS complaint text NOT NULL DEFAULT '';
 ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS treatment text NOT NULL DEFAULT '';
 ALTER TABLE public.medical_records DROP COLUMN IF EXISTS description;
+
+--changeset gguedes:111-customer-birth-date
+-- Data de nascimento do tutor (opcional) — usada pra lembrete de aniversario
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS birth_date date;
