@@ -203,3 +203,29 @@ CREATE TABLE public.medical_records (
 );
 
 CREATE INDEX IF NOT EXISTS ix_medical_records_patient ON public.medical_records(patient_id);
+
+--changeset gguedes:106-add-customer-address
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS address character varying(255);
+
+--changeset gguedes:107-split-customer-address
+ALTER TABLE public.customers DROP COLUMN IF EXISTS address;
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS street character varying(150);
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS street_number character varying(20);
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS neighborhood character varying(100);
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS city character varying(100);
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS reference_point character varying(150);
+
+--changeset gguedes:108-patient-age-instead-of-birthdate
+-- Nem todo tutor sabe a data exata de nascimento do pet, só uma nocao de idade
+ALTER TABLE public.patients DROP COLUMN IF EXISTS birth_date;
+ALTER TABLE public.patients ADD COLUMN IF NOT EXISTS age_years smallint;
+
+--changeset gguedes:109-fix-age-years-column-type
+-- Hibernate mapeia Integer para "integer" (int4), nao "smallint" (int2)
+ALTER TABLE public.patients ALTER COLUMN age_years TYPE integer;
+
+--changeset gguedes:110-medical-record-complaint-treatment
+-- Substitui a descricao generica por queixa e tratamento, campos especificos do atendimento
+ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS complaint text NOT NULL DEFAULT '';
+ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS treatment text NOT NULL DEFAULT '';
+ALTER TABLE public.medical_records DROP COLUMN IF EXISTS description;
