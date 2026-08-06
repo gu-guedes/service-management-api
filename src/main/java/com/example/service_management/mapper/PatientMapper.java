@@ -18,11 +18,12 @@ public class PatientMapper {
                 .species(p.getSpecies())
                 .breed(p.getBreed())
                 .sex(p.getSex())
-                .birthDate(p.getBirthDate())
+                .ageYears(p.getAgeYears())
                 .weightKg(p.getWeightKg())
                 .neutered(p.isNeutered())
                 .notes(p.getNotes())
                 .active(p.isActive())
+                .createdAt(p.getCreatedAt())
                 .build();
     }
 
@@ -33,11 +34,11 @@ public class PatientMapper {
         p.setSpecies(dto.getSpecies());
         p.setBreed(dto.getBreed());
         p.setSex(dto.getSex());
-        p.setBirthDate(dto.getBirthDate());
+        p.setAgeYears(dto.getAgeYears());
         p.setWeightKg(dto.getWeightKg());
-        p.setNeutered(dto.isNeutered());
+        p.setNeutered(dto.getNeutered() != null && dto.getNeutered());
         p.setNotes(dto.getNotes());
-        p.setActive(dto.isActive());
+        p.setActive(dto.getActive() == null || dto.getActive());
         return p;
     }
 
@@ -47,10 +48,10 @@ public class PatientMapper {
         existing.setSpecies(dto.getSpecies());
         existing.setBreed(dto.getBreed());
         existing.setSex(dto.getSex());
-        existing.setBirthDate(dto.getBirthDate());
+        existing.setAgeYears(dto.getAgeYears());
         existing.setWeightKg(dto.getWeightKg());
-        existing.setNeutered(dto.isNeutered());
+        existing.setNeutered(dto.getNeutered() != null && dto.getNeutered());
         existing.setNotes(dto.getNotes());
-        existing.setActive(dto.isActive());
+        existing.setActive(dto.getActive() == null || dto.getActive());
     }
 }

@@ -2,7 +2,7 @@ package com.example.service_management.dto;
 
 import lombok.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -16,9 +16,10 @@ public class PatientResponseDTO {
     private String species;
     private String breed;
     private String sex;
-    private LocalDate birthDate;
+    private Integer ageYears;
     private BigDecimal weightKg;
     private boolean neutered;
     private String notes;
     private boolean active;
+    private OffsetDateTime createdAt;
 }

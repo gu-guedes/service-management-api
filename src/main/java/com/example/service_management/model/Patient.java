@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "patients")
@@ -35,7 +34,8 @@ public class Patient {
 
     private String sex;
 
-    private LocalDate birthDate;
+    @Column(name = "age_years")
+    private Integer ageYears;
 
     @Column(precision = 5, scale = 2)
     private BigDecimal weightKg;

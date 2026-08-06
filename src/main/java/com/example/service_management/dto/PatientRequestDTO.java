@@ -3,7 +3,6 @@ package com.example.service_management.dto;
 import lombok.*;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,19 +22,26 @@ public class PatientRequestDTO {
     @Size(max = 50)
     private String species;
 
+    @NotBlank
     @Size(max = 100)
     private String breed;
 
+    @NotBlank
     private String sex;
 
-    private LocalDate birthDate;
+    @NotNull
+    @Min(0)
+    @Max(50)
+    private Integer ageYears;
 
+    @NotNull
     @DecimalMin("0.0")
     private BigDecimal weightKg;
 
-    private boolean neutered;
+    private Boolean neutered;
 
+    @NotBlank
     private String notes;
 
-    private boolean active;
+    private Boolean active;
 }
