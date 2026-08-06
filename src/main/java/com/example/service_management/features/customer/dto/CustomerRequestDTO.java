@@ -2,6 +2,7 @@ package com.example.service_management.features.customer.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -38,7 +39,7 @@ public class CustomerRequestDTO {
     @Size(max = 150, message = "referencePoint must be at most 150 characters")
     private String referencePoint;
 
-    // opcional — nem todo tutor sabe/quer informar, usado so pro lembrete de aniversario
+    @NotNull(message = "birthDate is mandatory")
     private LocalDate birthDate;
 
     public String getName() {
