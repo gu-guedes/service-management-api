@@ -22,6 +22,9 @@ public class MedicalRecordRequestDTO {
     @NotBlank
     private String complaint;
 
+    // opcional — historico clinico relatado pelo tutor (anamnese)
+    private String anamnesis;
+
     @NotBlank
     private String treatment;
 

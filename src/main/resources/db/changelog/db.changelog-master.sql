@@ -278,3 +278,7 @@ CREATE TABLE public.exam_requests (
 );
 
 CREATE INDEX IF NOT EXISTS ix_exam_requests_medical_record ON public.exam_requests(medical_record_id);
+
+--changeset gguedes:115-medical-records-anamnesis
+-- Anamnese: historico clinico relatado pelo tutor no atendimento — opcional.
+ALTER TABLE public.medical_records ADD COLUMN anamnesis text;
