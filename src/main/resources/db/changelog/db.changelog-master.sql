@@ -238,3 +238,23 @@ ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS birth_date date;
 -- Lembrete de retorno pos-atendimento (opcional) — ex: avisar tutor apos fim de um tratamento
 ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS follow_up_date date;
 ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS follow_up_done boolean DEFAULT false NOT NULL;
+
+--changeset gguedes:113-product-applications
+-- Controle de validade de produtos (coleira, vermifugo, vacina) vendidos sem abrir atendimento.
+-- So a aplicacao mais recente de cada produto por pet conta pra decidir se esta vencendo
+-- (regra aplicada no frontend) — por isso nao tem campo de "resolvido" aqui.
+CREATE TABLE public.product_applications (
+                                              id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                              patient_id bigint NOT NULL,
+                                              product_name varchar(120) NOT NULL,
+                                              applied_date date,
+                                              expires_at date NOT NULL,
+                                              notes text,
+                                              created_at timestamp with time zone DEFAULT now() NOT NULL,
+                                              CONSTRAINT fk_product_applications_patient
+                                                  FOREIGN KEY (patient_id)
+                                                      REFERENCES public.patients(id)
+                                                      ON DELETE RESTRICT
+);
+
+CREATE INDEX IF NOT EXISTS ix_product_applications_patient ON public.product_applications(patient_id);
