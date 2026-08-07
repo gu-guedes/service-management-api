@@ -258,3 +258,23 @@ CREATE TABLE public.product_applications (
 );
 
 CREATE INDEX IF NOT EXISTS ix_product_applications_patient ON public.product_applications(patient_id);
+
+--changeset gguedes:114-exam-requests
+-- Exames solicitados num atendimento, com resultado (PDF) anexado depois que chega.
+-- Guardado direto no Postgres (bytea) — sem storage externo, sem disco persistente no Render.
+CREATE TABLE public.exam_requests (
+                                       id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                       medical_record_id bigint NOT NULL,
+                                       exam_name varchar(120) NOT NULL,
+                                       requested_date date,
+                                       result_file bytea,
+                                       result_file_name varchar(255),
+                                       result_uploaded_at timestamp with time zone,
+                                       created_at timestamp with time zone DEFAULT now() NOT NULL,
+                                       CONSTRAINT fk_exam_requests_medical_record
+                                           FOREIGN KEY (medical_record_id)
+                                               REFERENCES public.medical_records(id)
+                                               ON DELETE RESTRICT
+);
+
+CREATE INDEX IF NOT EXISTS ix_exam_requests_medical_record ON public.exam_requests(medical_record_id);
