@@ -281,7 +281,6 @@ CREATE INDEX IF NOT EXISTS ix_exam_requests_medical_record ON public.exam_reques
 
 --changeset gguedes:111-medical-records-anamnesis
 -- Anamnese obrigatoria: historico clinico relatado pelo tutor no atendimento
--- (substitui a versao opcional que existia so nesta branch, nunca chegou a rodar em producao)
 ALTER TABLE public.medical_records ADD COLUMN anamnesis text NOT NULL DEFAULT '';
 ALTER TABLE public.medical_records ALTER COLUMN anamnesis DROP DEFAULT;
 
