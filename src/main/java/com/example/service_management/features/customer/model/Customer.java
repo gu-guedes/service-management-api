@@ -55,6 +55,10 @@ public class Customer {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
+    // separado do soft-delete de Patient (active) — excluir precisa sumir de vez da lista,
+    // sem apagar a linha (preserva historico)
+    @Column(nullable = false)
+    private boolean deleted = false;
 
     @PrePersist
     private void onCreate() {
@@ -99,4 +103,7 @@ public class Customer {
     public OffsetDateTime getCreatedAt() { return createdAt; }
 
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
+
+    public boolean isDeleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 }

@@ -31,8 +31,7 @@ public class MedicalRecord {
     @Column(nullable = false, columnDefinition = "text")
     private String complaint;
 
-    // opcional — historico clinico relatado pelo tutor (anamnese)
-    @Column(columnDefinition = "text")
+    @Column(nullable = false, columnDefinition = "text")
     private String anamnesis;
 
     @Column(nullable = false, columnDefinition = "text")

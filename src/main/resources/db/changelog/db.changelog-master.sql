@@ -279,6 +279,14 @@ CREATE TABLE public.exam_requests (
 
 CREATE INDEX IF NOT EXISTS ix_exam_requests_medical_record ON public.exam_requests(medical_record_id);
 
---changeset gguedes:115-medical-records-anamnesis
--- Anamnese: historico clinico relatado pelo tutor no atendimento — opcional.
-ALTER TABLE public.medical_records ADD COLUMN anamnesis text;
+--changeset gguedes:111-medical-records-anamnesis
+-- Anamnese obrigatoria: historico clinico relatado pelo tutor no atendimento
+-- (substitui a versao opcional que existia so nesta branch, nunca chegou a rodar em producao)
+ALTER TABLE public.medical_records ADD COLUMN anamnesis text NOT NULL DEFAULT '';
+ALTER TABLE public.medical_records ALTER COLUMN anamnesis DROP DEFAULT;
+
+--changeset gguedes:112-customer-patient-soft-delete
+-- "deleted" e separado do "active" ja existente em patients (que so marca inativo, sem sumir da lista) —
+-- excluir tutor/pet precisa sumir de verdade das listagens, sem apagar a linha (preserva historico)
+ALTER TABLE public.customers ADD COLUMN deleted boolean NOT NULL DEFAULT false;
+ALTER TABLE public.patients ADD COLUMN deleted boolean NOT NULL DEFAULT false;
