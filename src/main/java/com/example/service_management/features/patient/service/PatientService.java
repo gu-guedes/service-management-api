@@ -28,7 +28,7 @@ public class PatientService {
     }
 
     public List<PatientResponseDTO> findAll() {
-        return patientRepository.findAll().stream()
+        return patientRepository.findAllByDeletedFalse().stream()
                 .map(patientMapper::toResponse)
                 .toList();
     }
@@ -58,13 +58,22 @@ public class PatientService {
         return patientMapper.toResponse(existing);
     }
 
+    // "Inativar" — pet continua na lista, so muda o badge (comportamento existente, so renomeado)
+    @Transactional
+    public void deactivate(Long id) {
+        Patient existing = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found: " + id));
+
+        existing.setActive(false);
+    }
+
+    // "Excluir" — some da lista de vez, mas nao apaga a linha (preserva historico); nao mexe no tutor
     @Transactional
     public void delete(Long id) {
         Patient existing = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found: " + id));
 
-        existing.setActive(false);
-
+        existing.setDeleted(true);
     }
 
     private Customer customerOrFail(Long customerId) {

@@ -234,3 +234,9 @@ ALTER TABLE public.medical_records DROP COLUMN IF EXISTS description;
 -- Anamnese obrigatoria: historico clinico relatado pelo tutor no atendimento
 ALTER TABLE public.medical_records ADD COLUMN anamnesis text NOT NULL DEFAULT '';
 ALTER TABLE public.medical_records ALTER COLUMN anamnesis DROP DEFAULT;
+
+--changeset gguedes:112-customer-patient-soft-delete
+-- "deleted" e separado do "active" ja existente em patients (que so marca inativo, sem sumir da lista) —
+-- excluir tutor/pet precisa sumir de verdade das listagens, sem apagar a linha (preserva historico)
+ALTER TABLE public.customers ADD COLUMN deleted boolean NOT NULL DEFAULT false;
+ALTER TABLE public.patients ADD COLUMN deleted boolean NOT NULL DEFAULT false;

@@ -50,6 +50,11 @@ public class Patient {
     @Column(nullable = false)
     private boolean active = true;
 
+    // separado do "active" acima (usado pelo Inativar, que so marca inativo sem sumir da lista) —
+    // excluir precisa sumir de vez da lista, sem apagar a linha (preserva historico)
+    @Column(nullable = false)
+    private boolean deleted = false;
+
     @Column(nullable = false)
     private OffsetDateTime createdAt;
 
