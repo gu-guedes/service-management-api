@@ -22,6 +22,9 @@ public class MedicalRecordRequestDTO {
     private String complaint;
 
     @NotBlank
+    private String anamnesis;
+
+    @NotBlank
     private String treatment;
 
     @DecimalMin("0.0")

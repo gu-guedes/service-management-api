@@ -16,6 +16,7 @@ public class MedicalRecordResponseDTO {
     private String patientName;
     private OffsetDateTime recordDate;
     private String complaint;
+    private String anamnesis;
     private String treatment;
     private BigDecimal weightKg;
     private OffsetDateTime createdAt;

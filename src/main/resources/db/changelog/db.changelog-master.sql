@@ -229,3 +229,8 @@ ALTER TABLE public.patients ALTER COLUMN age_years TYPE integer;
 ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS complaint text NOT NULL DEFAULT '';
 ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS treatment text NOT NULL DEFAULT '';
 ALTER TABLE public.medical_records DROP COLUMN IF EXISTS description;
+
+--changeset gguedes:111-medical-records-anamnesis
+-- Anamnese obrigatoria: historico clinico relatado pelo tutor no atendimento
+ALTER TABLE public.medical_records ADD COLUMN anamnesis text NOT NULL DEFAULT '';
+ALTER TABLE public.medical_records ALTER COLUMN anamnesis DROP DEFAULT;
