@@ -46,10 +46,4 @@ public class PatientController {
         patientService.delete(id);
     }
 
-    @PostMapping("/{id}/deactivate")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deactivatePatient(@PathVariable Long id) {
-        patientService.deactivate(id);
-    }
-
 }
