@@ -240,3 +240,8 @@ ALTER TABLE public.medical_records ALTER COLUMN anamnesis DROP DEFAULT;
 -- excluir tutor/pet precisa sumir de verdade das listagens, sem apagar a linha (preserva historico)
 ALTER TABLE public.customers ADD COLUMN deleted boolean NOT NULL DEFAULT false;
 ALTER TABLE public.patients ADD COLUMN deleted boolean NOT NULL DEFAULT false;
+
+--changeset gguedes:113-add-customer-cpf
+-- CPF do cliente/tutor — opcional (clientes ja cadastrados nao tem), mas unico quando informado
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS cpf character varying(11);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_customers_cpf ON public.customers(cpf) WHERE cpf IS NOT NULL;

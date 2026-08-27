@@ -7,6 +7,7 @@ public class CustomerResponseDTO {
     private final String name;
     private final String email;
     private final String phone;
+    private final String cpf;
     private final String street;
     private final String streetNumber;
     private final String neighborhood;
@@ -15,13 +16,14 @@ public class CustomerResponseDTO {
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
-    public CustomerResponseDTO(Long id, String name, String email, String phone, String street, String streetNumber,
+    public CustomerResponseDTO(Long id, String name, String email, String phone, String cpf, String street, String streetNumber,
                                 String neighborhood, String city, String referencePoint,
                                 OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.cpf = cpf;
         this.street = street;
         this.streetNumber = streetNumber;
         this.neighborhood = neighborhood;
@@ -35,6 +37,7 @@ public class CustomerResponseDTO {
     public String getName() { return name; }
     public String getEmail() { return email; }
     public String getPhone() { return phone; }
+    public String getCpf() { return cpf; }
     public String getStreet() { return street; }
     public String getStreetNumber() { return streetNumber; }
     public String getNeighborhood() { return neighborhood; }

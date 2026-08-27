@@ -17,6 +17,10 @@ public class CustomerRequestDTO {
     @Pattern(regexp = "^\\+?\\d{8,15}$", message = "phone must be a valid phone number")
     private String phone;
 
+    @NotBlank(message = "cpf is mandatory", groups = OnCreate.class)
+    @Pattern(regexp = "^\\d{11}$", message = "cpf must contain exactly 11 digits")
+    private String cpf;
+
     @NotBlank(message = "street is mandatory")
     @Size(max = 150, message = "street must be at most 150 characters")
     private String street;
@@ -56,6 +60,14 @@ public class CustomerRequestDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getStreet() {

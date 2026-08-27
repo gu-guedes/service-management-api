@@ -2,9 +2,12 @@ package com.example.service_management.features.customer.controller;
 
 import com.example.service_management.features.customer.dto.CustomerRequestDTO;
 import com.example.service_management.features.customer.dto.CustomerResponseDTO;
+import com.example.service_management.features.customer.dto.OnCreate;
 import com.example.service_management.features.customer.service.CustomerService;
 import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +32,12 @@ public class CustomerController {
         return service.findById(id);
     }
 
+    // CPF e obrigatorio so na criacao (grupo OnCreate) — clientes ja cadastrados
+    // sem CPF continuam podendo ser atualizados normalmente (ver update abaixo,
+    // que usa @Valid puro e nao aplica esse grupo extra)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerResponseDTO create(@Valid @RequestBody CustomerRequestDTO customer) {
+    public CustomerResponseDTO create(@Validated({Default.class, OnCreate.class}) @RequestBody CustomerRequestDTO customer) {
         return service.create(customer);
     }
 
