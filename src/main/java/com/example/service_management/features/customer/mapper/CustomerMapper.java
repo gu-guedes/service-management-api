@@ -14,6 +14,7 @@ public class CustomerMapper {
             customer.getName(),
             customer.getEmail(),
             customer.getPhone(),
+            customer.getCpf(),
             customer.getStreet(),
             customer.getStreetNumber(),
             customer.getNeighborhood(),
@@ -26,7 +27,7 @@ public class CustomerMapper {
     }
 
     public Customer toEntity(CustomerRequestDTO dto) {
-        return new Customer(dto.getName(), dto.getEmail(), dto.getPhone(), dto.getStreet(), dto.getStreetNumber(),
+        return new Customer(dto.getName(), dto.getEmail(), dto.getPhone(), dto.getCpf(), dto.getStreet(), dto.getStreetNumber(),
                 dto.getNeighborhood(), dto.getCity(), dto.getReferencePoint(), dto.getBirthDate());
     }
 
@@ -34,6 +35,7 @@ public class CustomerMapper {
         customer.setName(dto.getName());
         customer.setEmail(dto.getEmail());
         customer.setPhone(dto.getPhone());
+        customer.setCpf(dto.getCpf());
         customer.setStreet(dto.getStreet());
         customer.setStreetNumber(dto.getStreetNumber());
         customer.setNeighborhood(dto.getNeighborhood());

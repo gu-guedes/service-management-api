@@ -307,3 +307,9 @@ CREATE TABLE public.medical_record_images (
 );
 
 CREATE INDEX IF NOT EXISTS ix_medical_record_images_medical_record ON public.medical_record_images(medical_record_id);
+
+--changeset gguedes:116-add-customer-cpf
+-- CPF do cliente/tutor — opcional (clientes ja cadastrados nao tem), mas unico quando informado.
+-- Renumerado de 113 (id original no main) pra 116 pra nao colidir com 113-product-applications do dev.
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS cpf character varying(11);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_customers_cpf ON public.customers(cpf) WHERE cpf IS NOT NULL;

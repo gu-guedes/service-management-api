@@ -8,11 +8,12 @@ import java.time.OffsetDateTime;
 @Table(name = "customers")
 public class Customer {
 
-    public Customer(String name, String email, String phone, String street, String streetNumber,
+    public Customer(String name, String email, String phone, String cpf, String street, String streetNumber,
                      String neighborhood, String city, String referencePoint, LocalDate birthDate) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.cpf = cpf;
         this.street = street;
         this.streetNumber = streetNumber;
         this.neighborhood = neighborhood;
@@ -33,6 +34,9 @@ public class Customer {
 
     private String email;
     private String phone;
+
+    @Column(name = "cpf", length = 11, unique = true)
+    private String cpf;
 
     @Column(name = "street")
     private String street;
@@ -81,6 +85,9 @@ public class Customer {
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
+
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
 
     public String getStreet() { return street; }
     public void setStreet(String street) { this.street = street; }
