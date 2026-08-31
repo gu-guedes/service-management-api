@@ -20,6 +20,8 @@ public class MedicalRecordMapper {
                 .anamnesis(r.getAnamnesis())
                 .treatment(r.getTreatment())
                 .weightKg(r.getWeightKg())
+                .followUpDate(r.getFollowUpDate())
+                .followUpDone(r.isFollowUpDone())
                 .createdAt(r.getCreatedAt())
                 .build();
     }
@@ -32,6 +34,8 @@ public class MedicalRecordMapper {
         r.setAnamnesis(dto.getAnamnesis());
         r.setTreatment(dto.getTreatment());
         r.setWeightKg(dto.getWeightKg());
+        r.setFollowUpDate(dto.getFollowUpDate());
+        r.setFollowUpDone(Boolean.TRUE.equals(dto.getFollowUpDone()));
         return r;
     }
 
@@ -44,5 +48,7 @@ public class MedicalRecordMapper {
         existing.setAnamnesis(dto.getAnamnesis());
         existing.setTreatment(dto.getTreatment());
         existing.setWeightKg(dto.getWeightKg());
+        existing.setFollowUpDate(dto.getFollowUpDate());
+        existing.setFollowUpDone(Boolean.TRUE.equals(dto.getFollowUpDone()));
     }
 }

@@ -2,8 +2,11 @@ package com.example.service_management.features.customer.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
 
 public class CustomerRequestDTO {
     @NotBlank(message = "name is mandatory")
@@ -39,6 +42,11 @@ public class CustomerRequestDTO {
 
     @Size(max = 150, message = "referencePoint must be at most 150 characters")
     private String referencePoint;
+
+    // obrigatorio so na criacao (mesmo padrao do cpf) — tutores ja cadastrados sem data de
+    // nascimento continuam podendo ser editados normalmente
+    @NotNull(message = "birthDate is mandatory", groups = OnCreate.class)
+    private LocalDate birthDate;
 
     public String getName() {
         return name;
@@ -108,5 +116,13 @@ public class CustomerRequestDTO {
 
     public void setReferencePoint(String referencePoint) {
         this.referencePoint = referencePoint;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }

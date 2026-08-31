@@ -1,6 +1,7 @@
 package com.example.service_management.features.customer.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -8,7 +9,7 @@ import java.time.OffsetDateTime;
 public class Customer {
 
     public Customer(String name, String email, String phone, String cpf, String street, String streetNumber,
-                     String neighborhood, String city, String referencePoint) {
+                     String neighborhood, String city, String referencePoint, LocalDate birthDate) {
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -18,6 +19,7 @@ public class Customer {
         this.neighborhood = neighborhood;
         this.city = city;
         this.referencePoint = referencePoint;
+        this.birthDate = birthDate;
     }
 
     protected Customer() {
@@ -47,6 +49,9 @@ public class Customer {
 
     @Column(name = "reference_point")
     private String referencePoint;
+
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
@@ -98,6 +103,9 @@ public class Customer {
 
     public String getReferencePoint() { return referencePoint; }
     public void setReferencePoint(String referencePoint) { this.referencePoint = referencePoint; }
+
+    public LocalDate getBirthDate() { return birthDate; }
+    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
 

@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Getter
@@ -29,4 +30,10 @@ public class MedicalRecordRequestDTO {
 
     @DecimalMin("0.0")
     private BigDecimal weightKg;
+
+    // opcional — nem todo atendimento precisa de lembrete de retorno
+    private LocalDate followUpDate;
+
+    // Boolean (nao boolean) porque o create nao manda esse campo — precisa aceitar ausente/null
+    private Boolean followUpDone;
 }

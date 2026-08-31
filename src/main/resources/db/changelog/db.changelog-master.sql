@@ -230,6 +230,55 @@ ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS complaint text NOT N
 ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS treatment text NOT NULL DEFAULT '';
 ALTER TABLE public.medical_records DROP COLUMN IF EXISTS description;
 
+--changeset gguedes:111-customer-birth-date
+-- Data de nascimento do tutor (opcional) — usada pra lembrete de aniversario
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS birth_date date;
+
+--changeset gguedes:112-medical-record-follow-up
+-- Lembrete de retorno pos-atendimento (opcional) — ex: avisar tutor apos fim de um tratamento
+ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS follow_up_date date;
+ALTER TABLE public.medical_records ADD COLUMN IF NOT EXISTS follow_up_done boolean DEFAULT false NOT NULL;
+
+--changeset gguedes:113-product-applications
+-- Controle de validade de produtos (coleira, vermifugo, vacina) vendidos sem abrir atendimento.
+-- So a aplicacao mais recente de cada produto por pet conta pra decidir se esta vencendo
+-- (regra aplicada no frontend) — por isso nao tem campo de "resolvido" aqui.
+CREATE TABLE public.product_applications (
+                                              id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                              patient_id bigint NOT NULL,
+                                              product_name varchar(120) NOT NULL,
+                                              applied_date date,
+                                              expires_at date NOT NULL,
+                                              notes text,
+                                              created_at timestamp with time zone DEFAULT now() NOT NULL,
+                                              CONSTRAINT fk_product_applications_patient
+                                                  FOREIGN KEY (patient_id)
+                                                      REFERENCES public.patients(id)
+                                                      ON DELETE RESTRICT
+);
+
+CREATE INDEX IF NOT EXISTS ix_product_applications_patient ON public.product_applications(patient_id);
+
+--changeset gguedes:114-exam-requests
+-- Exames solicitados num atendimento, com resultado (PDF) anexado depois que chega.
+-- Guardado direto no Postgres (bytea) — sem storage externo, sem disco persistente no Render.
+CREATE TABLE public.exam_requests (
+                                       id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                       medical_record_id bigint NOT NULL,
+                                       exam_name varchar(120) NOT NULL,
+                                       requested_date date,
+                                       result_file bytea,
+                                       result_file_name varchar(255),
+                                       result_uploaded_at timestamp with time zone,
+                                       created_at timestamp with time zone DEFAULT now() NOT NULL,
+                                       CONSTRAINT fk_exam_requests_medical_record
+                                           FOREIGN KEY (medical_record_id)
+                                               REFERENCES public.medical_records(id)
+                                               ON DELETE RESTRICT
+);
+
+CREATE INDEX IF NOT EXISTS ix_exam_requests_medical_record ON public.exam_requests(medical_record_id);
+
 --changeset gguedes:111-medical-records-anamnesis
 -- Anamnese obrigatoria: historico clinico relatado pelo tutor no atendimento
 ALTER TABLE public.medical_records ADD COLUMN anamnesis text NOT NULL DEFAULT '';
@@ -241,7 +290,26 @@ ALTER TABLE public.medical_records ALTER COLUMN anamnesis DROP DEFAULT;
 ALTER TABLE public.customers ADD COLUMN deleted boolean NOT NULL DEFAULT false;
 ALTER TABLE public.patients ADD COLUMN deleted boolean NOT NULL DEFAULT false;
 
---changeset gguedes:113-add-customer-cpf
--- CPF do cliente/tutor — opcional (clientes ja cadastrados nao tem), mas unico quando informado
+--changeset gguedes:115-medical-record-images
+-- Fotos anexadas num atendimento (ex: lesao, ferimento). Guardado no Postgres (bytea),
+-- mesmo padrao do resultado de exame em PDF — sem storage externo.
+CREATE TABLE public.medical_record_images (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    medical_record_id bigint NOT NULL,
+    file_name varchar(255) NOT NULL,
+    content_type varchar(100) NOT NULL,
+    image_data bytea NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT fk_medical_record_images_medical_record
+        FOREIGN KEY (medical_record_id)
+            REFERENCES public.medical_records(id)
+            ON DELETE RESTRICT
+);
+
+CREATE INDEX IF NOT EXISTS ix_medical_record_images_medical_record ON public.medical_record_images(medical_record_id);
+
+--changeset gguedes:116-add-customer-cpf
+-- CPF do cliente/tutor — opcional (clientes ja cadastrados nao tem), mas unico quando informado.
+-- Renumerado de 113 (id original no main) pra 116 pra nao colidir com 113-product-applications do dev.
 ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS cpf character varying(11);
 CREATE UNIQUE INDEX IF NOT EXISTS ux_customers_cpf ON public.customers(cpf) WHERE cpf IS NOT NULL;

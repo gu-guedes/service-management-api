@@ -20,6 +20,7 @@ public class CustomerMapper {
             customer.getNeighborhood(),
             customer.getCity(),
             customer.getReferencePoint(),
+            customer.getBirthDate(),
             customer.getCreatedAt(),
             customer.getUpdatedAt()
         );
@@ -27,7 +28,7 @@ public class CustomerMapper {
 
     public Customer toEntity(CustomerRequestDTO dto) {
         return new Customer(dto.getName(), dto.getEmail(), dto.getPhone(), dto.getCpf(), dto.getStreet(), dto.getStreetNumber(),
-                dto.getNeighborhood(), dto.getCity(), dto.getReferencePoint());
+                dto.getNeighborhood(), dto.getCity(), dto.getReferencePoint(), dto.getBirthDate());
     }
 
     public void updateEntity(Customer customer, CustomerRequestDTO dto) {
@@ -40,6 +41,7 @@ public class CustomerMapper {
         customer.setNeighborhood(dto.getNeighborhood());
         customer.setCity(dto.getCity());
         customer.setReferencePoint(dto.getReferencePoint());
+        customer.setBirthDate(dto.getBirthDate());
     }
 
 }
