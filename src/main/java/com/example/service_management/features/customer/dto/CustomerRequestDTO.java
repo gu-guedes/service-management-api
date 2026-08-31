@@ -43,7 +43,9 @@ public class CustomerRequestDTO {
     @Size(max = 150, message = "referencePoint must be at most 150 characters")
     private String referencePoint;
 
-    @NotNull(message = "birthDate is mandatory")
+    // obrigatorio so na criacao (mesmo padrao do cpf) — tutores ja cadastrados sem data de
+    // nascimento continuam podendo ser editados normalmente
+    @NotNull(message = "birthDate is mandatory", groups = OnCreate.class)
     private LocalDate birthDate;
 
     public String getName() {
