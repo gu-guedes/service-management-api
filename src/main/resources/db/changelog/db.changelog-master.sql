@@ -313,3 +313,8 @@ CREATE INDEX IF NOT EXISTS ix_medical_record_images_medical_record ON public.med
 -- Renumerado de 113 (id original no main) pra 116 pra nao colidir com 113-product-applications do dev.
 ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS cpf character varying(11);
 CREATE UNIQUE INDEX IF NOT EXISTS ux_customers_cpf ON public.customers(cpf) WHERE cpf IS NOT NULL;
+
+--changeset gguedes:117-exam-request-details
+-- Itens especificos incluidos num exame (ex: "Exame completo" varia por animal) — opcional,
+-- preenchido na solicitacao, pra nao precisar abrir o PDF do resultado so pra saber o que foi pedido.
+ALTER TABLE public.exam_requests ADD COLUMN IF NOT EXISTS details text;

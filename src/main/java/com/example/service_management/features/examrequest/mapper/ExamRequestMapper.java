@@ -18,6 +18,7 @@ public class ExamRequestMapper {
                 .patientId(record != null && record.getPatient() != null ? record.getPatient().getId() : null)
                 .patientName(record != null && record.getPatient() != null ? record.getPatient().getName() : null)
                 .examName(e.getExamName())
+                .details(e.getDetails())
                 .requestedDate(e.getRequestedDate())
                 .resultFileName(e.getResultFileName())
                 .resultUploadedAt(e.getResultUploadedAt())
@@ -26,6 +27,6 @@ public class ExamRequestMapper {
     }
 
     public ExamRequest toEntity(ExamRequestRequestDTO dto, MedicalRecord medicalRecord) {
-        return new ExamRequest(medicalRecord, dto.getExamName(), dto.getRequestedDate());
+        return new ExamRequest(medicalRecord, dto.getExamName(), dto.getRequestedDate(), dto.getDetails());
     }
 }

@@ -11,9 +11,14 @@ import java.time.OffsetDateTime;
 public class ExamRequest {
 
     public ExamRequest(MedicalRecord medicalRecord, String examName, LocalDate requestedDate) {
+        this(medicalRecord, examName, requestedDate, null);
+    }
+
+    public ExamRequest(MedicalRecord medicalRecord, String examName, LocalDate requestedDate, String details) {
         this.medicalRecord = medicalRecord;
         this.examName = examName;
         this.requestedDate = requestedDate;
+        this.details = details;
     }
 
     protected ExamRequest() {
@@ -29,6 +34,11 @@ public class ExamRequest {
 
     @Column(name = "exam_name", nullable = false)
     private String examName;
+
+    // itens especificos inclusos nesse exame (ex: "exame completo" varia por animal) — opcional,
+    // preenchido na solicitacao, pra nao precisar abrir o PDF do resultado so pra saber o que foi pedido
+    @Column(name = "details", columnDefinition = "text")
+    private String details;
 
     // opcional — se nao vier, assume a data do registro (ver onCreate)
     @Column(name = "requested_date")
@@ -63,6 +73,9 @@ public class ExamRequest {
 
     public String getExamName() { return examName; }
     public void setExamName(String examName) { this.examName = examName; }
+
+    public String getDetails() { return details; }
+    public void setDetails(String details) { this.details = details; }
 
     public LocalDate getRequestedDate() { return requestedDate; }
     public void setRequestedDate(LocalDate requestedDate) { this.requestedDate = requestedDate; }

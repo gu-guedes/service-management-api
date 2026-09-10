@@ -19,4 +19,7 @@ public class ExamRequestRequestDTO {
     private String examName;
 
     private LocalDate requestedDate;
+
+    // itens especificos inclusos nesse exame — opcional
+    private String details;
 }

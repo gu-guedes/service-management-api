@@ -16,6 +16,7 @@ public class ExamRequestResponseDTO {
     private Long patientId;
     private String patientName;
     private String examName;
+    private String details;
     private LocalDate requestedDate;
     private String resultFileName;
     private OffsetDateTime resultUploadedAt;
