@@ -318,3 +318,22 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_customers_cpf ON public.customers(cpf) WHER
 -- Itens especificos incluidos num exame (ex: "Exame completo" varia por animal) — opcional,
 -- preenchido na solicitacao, pra nao precisar abrir o PDF do resultado so pra saber o que foi pedido.
 ALTER TABLE public.exam_requests ADD COLUMN IF NOT EXISTS details text;
+
+--changeset gguedes:118-cascade-delete-medical-record-children
+-- Excluir atendimento estava falhando (409) sempre que havia exame ou foto anexada —
+-- as FKs eram ON DELETE RESTRICT e o service nao apagava os filhos antes. Excluir um
+-- atendimento agora leva junto os exames solicitados (PDF incluso) e as fotos anexadas,
+-- ja que nenhum dos dois faz sentido orfao de um atendimento que nao existe mais.
+ALTER TABLE public.exam_requests DROP CONSTRAINT fk_exam_requests_medical_record;
+ALTER TABLE public.exam_requests
+    ADD CONSTRAINT fk_exam_requests_medical_record
+        FOREIGN KEY (medical_record_id)
+            REFERENCES public.medical_records(id)
+            ON DELETE CASCADE;
+
+ALTER TABLE public.medical_record_images DROP CONSTRAINT fk_medical_record_images_medical_record;
+ALTER TABLE public.medical_record_images
+    ADD CONSTRAINT fk_medical_record_images_medical_record
+        FOREIGN KEY (medical_record_id)
+            REFERENCES public.medical_records(id)
+            ON DELETE CASCADE;
