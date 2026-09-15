@@ -30,7 +30,7 @@ public class ProductApplicationService {
     }
 
     public List<ProductApplicationResponseDTO> findAll() {
-        return productApplicationRepository.findAll().stream()
+        return productApplicationRepository.findAllByPatient_DeletedFalse().stream()
                 .map(productApplicationMapper::toResponse)
                 .toList();
     }

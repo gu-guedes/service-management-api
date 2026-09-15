@@ -30,7 +30,7 @@ public class MedicalRecordService {
     }
 
     public List<MedicalRecordResponseDTO> findAll() {
-        return medicalRecordRepository.findAll().stream()
+        return medicalRecordRepository.findAllByPatient_DeletedFalse().stream()
                 .map(medicalRecordMapper::toResponse)
                 .toList();
     }

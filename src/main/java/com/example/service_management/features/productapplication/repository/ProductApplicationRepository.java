@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface ProductApplicationRepository extends JpaRepository<ProductApplication, Long> {
     List<ProductApplication> findByPatientIdOrderByExpiresAtDesc(Long patientId);
+
+    // esconde aplicacoes de pacientes ja excluidos (soft delete) — mesmo padrao do
+    // PatientRepository.findAllByDeletedFalse()
+    List<ProductApplication> findAllByPatient_DeletedFalse();
 }

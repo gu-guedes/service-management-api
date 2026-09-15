@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface ExamRequestRepository extends JpaRepository<ExamRequest, Long> {
     List<ExamRequest> findByMedicalRecordIdOrderByCreatedAtDesc(Long medicalRecordId);
+
+    // esconde exames de pacientes ja excluidos (soft delete) — mesmo padrao do
+    // PatientRepository.findAllByDeletedFalse()
+    List<ExamRequest> findAllByMedicalRecord_Patient_DeletedFalse();
 }

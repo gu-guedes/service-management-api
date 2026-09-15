@@ -34,7 +34,7 @@ public class ExamRequestService {
     }
 
     public List<ExamRequestResponseDTO> findAll() {
-        return examRequestRepository.findAll().stream()
+        return examRequestRepository.findAllByMedicalRecord_Patient_DeletedFalse().stream()
                 .map(examRequestMapper::toResponse)
                 .toList();
     }

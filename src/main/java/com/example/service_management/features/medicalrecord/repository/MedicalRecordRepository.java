@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Long> {
     List<MedicalRecord> findByPatientIdOrderByRecordDateDesc(Long patientId);
+
+    // esconde atendimentos de pacientes ja excluidos (soft delete) — mesmo padrao do
+    // PatientRepository.findAllByDeletedFalse()
+    List<MedicalRecord> findAllByPatient_DeletedFalse();
 }
